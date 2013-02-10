@@ -1,6 +1,6 @@
 PicasaTest::Application.routes.draw do
   get "album/:id" => "album#show", :as => "show_album"
-  post "album/:id/photo/:photo_id/comment" => "album#comment_photo", :as => "comment_photo"
+  post "album/:id/picture/:picture_id/comment" => "album#comment_picture", :as => "comment_picture"
 
   get "login/sign_in"
 

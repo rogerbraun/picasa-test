@@ -41,9 +41,20 @@ class OAuthHandler
     defaults = {method: 'get', format: 'json'}
     options = defaults.merge options
 
-    data = {params: data} if options[:method] == 'get'
+    headers = {}
+    headers["Authorization"] = "Bearer #{data.delete(:access_token)}" if data[:access_token]
+
     begin
-      response = RestClient.send options[:method], endpoint, data
+      case options[:method]
+      when 'get'
+        data = {params: data} if options[:method] == 'get'
+        data = data.merge(headers)
+        response = RestClient.get endpoint, data
+      when 'post'
+        data = data[:body] if data[:body]
+        headers[:content_type] = "application/atom+xml"
+        response = RestClient.post endpoint, data, headers
+      end
     rescue => error
       if error.response["token expired"]
         raise TokenExpired
@@ -51,6 +62,7 @@ class OAuthHandler
         raise error
       end
     end
+
     response = JSON.parse response, symbolize_names: true if options[:format] == 'json'
     response
   end

@@ -1,5 +1,18 @@
 <h1>Album</h1>
 <% @pictures.each do |picture| %>
   <%= image_tag picture.uri %>
+  <ul>
+    <% picture.comments.each do |comment| %>
+      <li><b><%= comment[:author] %></b>: <%= comment[:content] %></li>
+    <% end %>
+  </ul>
+  <%= form_tag comment_picture_path(picture.album_id, picture.id) do %>
+    <p>Comment:</p>
+    <p>
+      <textarea name='content'></textarea>
+    </p>
+    <button>Submit!</button>
+  <% end %>
+
   <br>
 <% end %>
