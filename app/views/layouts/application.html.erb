@@ -7,6 +7,19 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+<div class="navbar">
+  <div class="navbar-inner">
+    <a class="brand" href="<%= root_path %>">Dr. Picasa's Mean Commenting Machine</a>
+    <ul class="nav pull-right">
+      <% if @user %>
+        <li><a href=''>Hi, <%= @user.name %>!</a></li>
+        <li><a href="<%= login_sign_out_path %>">Sign out</a></li>
+      <% else %>
+        <li><a href="<%= login_sign_in_path %>">Sign in</a></li>
+      <% end %>
+    </ul>
+  </div>
+</div>
 <div class='container'>
   <%= yield %>
 </div>

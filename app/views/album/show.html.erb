@@ -1,18 +1,65 @@
-<h1>Album</h1>
-<% @pictures.each do |picture| %>
-  <%= image_tag picture.uri %>
-  <ul>
-    <% picture.comments.each do |comment| %>
-      <li><b><%= comment[:author] %></b>: <%= comment[:content] %></li>
-    <% end %>
-  </ul>
-  <%= form_tag comment_picture_path(picture.album_id, picture.id) do %>
-    <p>Comment:</p>
-    <p>
-      <textarea name='content'></textarea>
-    </p>
-    <button>Submit!</button>
-  <% end %>
+<div class='row'>
+  <div class='span12'>
+    <h1><%= @album.title %></h1>
+    <div id="myCarousel" class="carousel slide">
+      <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+      </ol>
+      <!-- Carousel items -->
+      <div class="carousel-inner">
+        <% @pictures.each.with_index do |picture, i| %>
+          <div class="item <%= 'active' if i == 0 %>">
+            <%= image_tag picture.uri, :class => 'img-polaroid'%>
+            <div class='row'>
+              <div class='span6'>
+                <div class='comment-form'>
+                  <%= form_tag comment_picture_path(picture.album_id, picture.id) do %>
+                    <div class='input-append'>
+                      <input class='span4' name='content' type='text'/>
 
-  <br>
-<% end %>
+                      <button class='btn' type='submit'>Comment!</button>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+              <div class='span6'>
+                <div class='comments'>
+                  <h4>Comments</h4>
+                  <ul>
+                    <% picture.comments.each do |comment| %>
+                      <li><b><%= comment[:author] %></b>: <%= comment[:content] %></li>
+                    <% end %>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <!-- Carousel nav -->
+      <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+      <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+    </div>
+    <!--
+    <% @pictures.each do |picture| %>
+      <%= image_tag picture.uri %>
+      <ul>
+        <% picture.comments.each do |comment| %>
+          <li><b><%= comment[:author] %></b>: <%= comment[:content] %></li>
+        <% end %>
+      </ul>
+      <%= form_tag comment_picture_path(picture.album_id, picture.id) do %>
+        <p>Comment:</p>
+        <p>
+          <textarea name='content'></textarea>
+        </p>
+        <button>Submit!</button>
+      <% end %>
+
+      <br>
+    <% end %>
+    -->
+  </div>
+</div>

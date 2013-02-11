@@ -1,16 +1,12 @@
 <div class='row'>
   <div class='span12'>
-    <h1>Home</h1>
     <% if @user %>
-      <%= image_tag @picasa_user.icon, :class => 'img-rounded' %>
-      <p>Hi, <%= @user.name %>!</p>
-      <%= link_to "Sign out", login_sign_out_path %>
       <h2>Your Albums</h2>
-      <% @picasa_user.albums.each_slice(3) do |albums| %>
+      <% @picasa_user.albums.each_slice(2) do |albums| %>
         <div class='row'>
           <% albums.each do |album| %>
-            <div class='span4 album'>
-              <div class='media'>
+            <div class='span6 album'>
+              <div class='media well'>
                 <%= link_to image_tag(album.thumbnail, :class => 'img-polaroid'), show_album_path(album.id), :class => "pull-left" %>
                 <div class='media-body'>
                   <h4 class='media-heading'><%= album.title %></h4>
@@ -22,8 +18,15 @@
         </div>
       <% end %>
     <% else %>
-      <p>Sign in to view albums</p>
-      <%= link_to "Sign in", login_sign_in_path %>
+      <div class="hero-unit">
+        <h1>Dr Picasa</h1>
+        <p>Show Dr Picasa what you are made of and comment like crazy!</p>
+        <p>
+          <a href='<%= login_sign_in_path %>' class="btn btn-primary btn-large">
+            Sign in with Google
+          </a>
+        </p>
+      </div>
     <% end %>
   </div>
 </div>
