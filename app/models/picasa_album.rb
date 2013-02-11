@@ -12,7 +12,13 @@ class PicasaAlbum
     @summary = doc.xpath("xmlns:summary").text || doc.xpath("xmlns:subtitle")
     @id = doc.xpath("gphoto:id").text
     @num_photos = doc.xpath("gphoto:numphotos").text
-    @thumbnail = doc.xpath("media:group/media:thumbnail")
+
+    begin
+      @thumbnail = doc.xpath("media:group/media:thumbnail")
+    rescue Nokogiri::XML::XPath::SyntaxError
+      @thumbnail = ''
+    end
+
     @thumbnail = !@thumbnail.empty? ? @thumbnail.attr('url').value : doc.xpath('xmlns:icon')
     @pictures = doc.xpath("xmlns:entry")
     unless @pictures.empty?
