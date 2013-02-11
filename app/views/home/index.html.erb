@@ -1,15 +1,29 @@
-<h1>Home</h1>
-<% if @user %>
-  <%= image_tag @picasa_user.icon %>
-  <p>Hi, <%= @user.name %>!</p>
-  <%= link_to "Sign out", login_sign_out_path %>
-  <h2>Your Albums</h2>
-  <% @picasa_user.albums.each do |album| %>
-    <h3><%= album.title %></h3>
-    <%= link_to image_tag(album.thumbnail), show_album_path(album.id) %>
-    <p><%= album.summary %></p>
-  <% end %>
-<% else %>
-  <p>Sign in to view albums</p>
-  <%= link_to "Sign in", login_sign_in_path %>
-<% end %>
+<div class='row'>
+  <div class='span12'>
+    <h1>Home</h1>
+    <% if @user %>
+      <%= image_tag @picasa_user.icon, :class => 'img-rounded' %>
+      <p>Hi, <%= @user.name %>!</p>
+      <%= link_to "Sign out", login_sign_out_path %>
+      <h2>Your Albums</h2>
+      <% @picasa_user.albums.each_slice(3) do |albums| %>
+        <div class='row'>
+          <% albums.each do |album| %>
+            <div class='span4 album'>
+              <div class='media'>
+                <%= link_to image_tag(album.thumbnail, :class => 'img-polaroid'), show_album_path(album.id), :class => "pull-left" %>
+                <div class='media-body'>
+                  <h4 class='media-heading'><%= album.title %></h4>
+                  <p><%= album.summary %></p>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    <% else %>
+      <p>Sign in to view albums</p>
+      <%= link_to "Sign in", login_sign_in_path %>
+    <% end %>
+  </div>
+</div>
